@@ -2,7 +2,7 @@ package Apache::Session::Generate::ModUsertrack;
 
 use strict;
 use vars qw($VERSION);
-$VERSION = '0.01';
+$VERSION = 0.02;
 
 use CGI::Cookie;
 use constant MOD_PERL => exists $ENV{MOD_PERL};
@@ -23,7 +23,7 @@ sub generate {
     unless ($cookies{$name}) {
 	# still bad luck
 	require Carp;
-	Carp::croak 'no cookie found. Make sure mod_usertrack is enabled.';
+	Carp::croak('no cookie found. Make sure mod_usertrack is enabled.');
     }
     $session->{data}->{_session_id} = $cookies{$name}->value;
 }
@@ -32,7 +32,7 @@ sub validate {
     my $session = shift;
 
     # remote_host (or remote_addr) + int
-    $session->{data}->{_session_id} =~ /^[\d\w\.]+\.\d+$/
+    $session->{data}->{_session_id} =~ /^[\d\w\.-]+\.\d+$/
 	or die "invalid session id: $session->{data}->{_session_id}";
 }
 
@@ -41,7 +41,7 @@ __END__
 
 =head1 NAME
 
-Apache::Session::Generate::ModUsertrack - mod_usertrack for session ID generation
+Apache::Session::Generate::ModUsertrack - uses mod_usertrack for session ID generation
 
 =head1 SYNOPSIS
 
